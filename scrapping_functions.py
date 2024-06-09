@@ -32,13 +32,15 @@ def scrap_data(num_pages):
                 for div in divs:
                     pairs = div.find_all(["p", "a"])
                     for i in range(0, len(pairs), 2):
-                        key = pairs[i].get_text(strip=True)
-                        value = pairs[i+1].get_text(strip=True)
-                        data_dict[key] = value
+                        if i + 1 < len(pairs):  # Check if pairs[i+1] exists
+                            key = pairs[i].get_text(strip=True)
+                            value = pairs[i+1].get_text(strip=True)
+                            data_dict[key] = value
                 
                 filtered_data = filter_data(data_dict)
-                save_to_mongodb(filtered_data)
+                save_to_mongodb(filtered_data) 
                 
                 time.sleep(1)
 
     driver.quit()
+
